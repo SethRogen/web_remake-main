@@ -1,3 +1,14 @@
+<?php
+// Check if the install directory exists
+if (is_dir('install')) {
+    // Redirect to the install directory
+    header('Location: install/');
+    exit; // Make sure no other code is executed after the redirect
+}
+
+// If the install directory doesn't exist, continue with your regular code
+// Add your existing index.php code here
+?>
 <?php 
 session_start();
    // MikeRSWeb Source code \\   |
