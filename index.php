@@ -131,7 +131,7 @@ if(!isset($_SESSION['user']))
 </div>
 <div class="feature">
 <a href="#"><img src="www.runescape.com/layout-<?php echo $ln; ?>/img/main/home/feature_poll_icon.jpg" alt="" /></a>
-<div class="featureTitle"><?php echo $feature_title_4; ?></div>
+<div class="featureTitle"><?php echo $feature_content_3; ?></div>
 <div class="featureDesc">
 </div>
 </div>

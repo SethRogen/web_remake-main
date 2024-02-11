@@ -200,7 +200,7 @@ $limit = $results_per_page;
 
 <?php
   list($user_id, $sig) = mysql_fetch_row(mysql_query("SELECT id, signiture FROM {$prefix}users WHERE uname='". $n['author'] ."'"));
-  $name = preg_replace('/[a-z]/ie', 'strtoupper($0);', stripslashes($n['author']), 1); 
+ $name = preg_replace('/[a-z]/ie', 'strtoupper("$0");', stripslashes($n['author']), 1);
  if($checkbanned)
  {
     echo '<div class="msgcreator uname"><s style="color:#ff0000;">&nbsp;<a style="text-decoration: none;" href="profile.php?id='. $user_id .'">'. htmlspecialchars($name) .'</a></s></div>

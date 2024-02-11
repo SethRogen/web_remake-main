@@ -116,6 +116,27 @@ if($_GET['step'] == 3) {
 		    }
 			
 		    fclose($handle);
+			$filename_connect = "../includes/connect.php";
+			$line_to_replace = "include 'includes/config.php';";
+			$new_line = "\$host = '". $_POST['host'] ."';\$dbuser = '". $_POST['user'] ."';\$dbpass = '". $_POST['pass'] ."';\$db = '". $_POST['db'] ."';\$prefix = '". $_POST['prefix'] ."'; ";
+			// Read the contents of the file into an array
+			$old_content = file($filename_connect);
+
+			// Iterate through the array and replace the line if found
+			foreach ($old_content as &$line) {
+				if (strpos($line, $line_to_replace) !== false) {
+				$line = $new_line . PHP_EOL;
+				break; // Stop searching after replacing the line
+				}
+			}
+
+			// Write the modified contents back to the file
+			if (file_put_contents($filename_connect, implode('', $old_content)) !== FALSE) {
+				echo "connect database replaced successfully.";
+			} else {
+				echo "Error replacing line.";
+			}
+
 		    echo "MySQL Successfully connected.";
 		    echo '<form action="install.php?step=4" method="post">';
 		    echo '<input type="submit" value="Continue">';

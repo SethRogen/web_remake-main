@@ -16,8 +16,9 @@ function realEscape($string)
 }
 function capitalize($value)
 {
-$capitalize = preg_replace('/[a-z]/ie', 'strtoupper($0);', $value, 1);
-return htmlspecialchars($capitalize);
+    return preg_replace_callback('/[a-z]/i', function($matches) {
+        return strtoupper($matches[0]);
+    }, $value);
 }
 function encrypt($value)
 {

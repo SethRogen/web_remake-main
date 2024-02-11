@@ -189,7 +189,9 @@ WHERE p.date = (SELECT MAX(date) FROM '. $prefix .'posts q
     {
       $p = mysql_fetch_assoc($forum_thread_author);
       list($user_id) = mysql_fetch_row(mysql_query("SELECT id FROM {$prefix}users WHERE uname='". htmlentities($p['author']) ."'"));
-$name1 = preg_replace('/[a-z]/ie', 'strtoupper($0);', stripslashes($p['author']), 1);
+$name1 = preg_replace_callback('/[a-z]/i', function($matches) {
+    return strtoupper($matches[0]);
+}, stripslashes($p['author']));
 
       echo '<tr class="thdnrml">';
       if(isset($_SESSION['admin']) || ((isset($_SESSION['mod']) && in_array($fid, $_SESSION['forums']))))

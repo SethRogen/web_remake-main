@@ -136,30 +136,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
     echo "<center>This username already exists</center>";
     }
-    else
-    {
+    else {
       if($_POST['password1'] == $_POST['password2'])
       {
-        if(preg_match('/[a-z0-9]{3,13}/i', $_POST['username'], $matches) && strlen($matches[0]) === strlen($_POST['username']))
-        {
+		if(preg_match('/^[a-z0-9\s]{3,13}$/i', $_POST['username'], $matches) && strlen($matches[0]) === strlen($_POST['username'])) {
           if(preg_match('/[a-z0-9]{3,13}/i', $_POST['password1'], $matches) && strlen($matches[0]) === strlen($_POST['password1']))
           {
             if(is_numeric($_POST['day']) && is_numeric($_POST['month']) && is_numeric($_POST['year'])) {
-              mysql_query("INSERT INTO ". $prefix ."users (uname, pass, banned, ip, dob, country, mail, rights, ipbanned, hide_mail) VALUES ('". realEscape($_POST['username']) ."', '". encrypt($_POST['password1']) ."', '0', '". $_SERVER['REMOTE_ADDR'] ."', '". realEscape($_POST['day']) ."/". realEscape($_POST['month']) ."/". realEscape($_POST['year']) ."', '". realEscape($_POST['country']) ."', '". realEscape($_POST['mail']) ."', '0', '0', '". (int)($_POST['hide_mail'] != NULL) ."')");
-              echo "<center>Your account has been successfully created<br>You cant login on the <a href='login.php'>Login Page</a>.<br />
+              mysql_query("INSERT INTO ". $prefix ."users (uname, pass, banned, ip, dob, country, mail, rights, ipbanned, hide_mail) VALUES ('". realEscape($_POST['username']) ."', '". encrypt($_POST['password1']) ."', '0', '". $_SERVER['REMOTE_ADDR'] ."', '". realEscape($_POST['day']) ."/". realEscape($_POST['month']) ."/". realEscape($_POST['year']) ."', '". realEscape($_POST['country']) ."', '". realEscape($_POST['mail']) ."', '0', '0', '0')");
+              echo "<center>Your account has been successfully created<br>You can login on the <a href='login.php'>Login Page</a>.<br />
               Username: ". htmlspecialchars($_POST['username']) ."<br>
               Mail: ". htmlspecialchars($_POST['mail']) ."</center>";
             } else {
               echo '<p>All fields from your birthdate must be numeric.</p>';
             }
-          }
-          else
-          {
+          } else {
             echo '<center>Invalid password. Your password can only contain Numbers and Letters, and be 3-12 characters in length.</center>';
           }
         }
-        else
-        {
+        else {
           echo '<center>Invalid username. Your username can only contain Numbers and Letters, and be 3-12 characters in length.</center>';
         }
       }
@@ -202,10 +197,6 @@ else
 <div class="formSection">
 <label for="mail">Your E-Mail:</label>
 <input id="password1" name="mail" type="text" autocomplete="off" value="" maxlength="60">
-</div>
-<div class="formSection">
-<label for="hide_mail">Hide your e-mail?:</label>
-<input id="hide_mail" type="checkbox" name="hide_mail" />
 </div>
 <br class="clear" />
 </div>
