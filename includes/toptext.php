@@ -1,4 +1,4 @@
-<div id="player_no">Welcome to <?php echo htmlspecialchars($title); ?></div><?php
+<div id="player_no">There are currently :: people playing!</div><?php
 if(isset($_SESSION['user']))
 {
   $session_name = preg_replace('/[a-z]/ie', 'strtoupper($0);', stripslashes($_SESSION['user']), 1);

@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	include "includes/connect.php";
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -79,7 +78,7 @@ Logout Successful
 session_start(); 
 
 //check to make sure the session variable is registered 
-if(session_is_registered('admin') || session_is_registered('user')){ 
+if(isset($_SESSION['admin']) || isset($_SESSION['user'])) {
 
 //session variable is registered, the user is ready to logout 
 session_unset(); 
@@ -88,7 +87,7 @@ echo "<p>You have successfully logged out of your account.</p>
 <p>If you are not redirected automatically, please click <a target='_top' href='index.php'>here</a> to go to the homepage.</p>
 ";
 } 
-else{ 
+else { 
 echo "Your not logged in";
 } 
 ?> 
@@ -98,10 +97,9 @@ echo "Your not logged in";
 </div>
 </div>
 <div id="footer"><div class="contain"><div class="footerdesc">
-This website and its contents are copyright © Jagex Ltd And  <?php echo htmlspecialchars($title); ?>. <br />This website is powerd by <a href="http://mikersweb.info".>MikeRSWeb</a>.
-</div><a class="jagexlink" href="#" target="_blank"><img src="www.runescape.com/layout-<?php echo $ln; ?>/img/main/layout/jagex.png?1" alt="Jagex" /></a></div></div>
+This website and its contents are copyright &copy; 1999 - 2011 Jagex Ltd. <br />This website is powered by <a href="http://RunescapeCommunitySoftware.info">Runescape Community Software</a>.
+</div><a class="jagexlink" href="http://www.jagex.com" target="_blank"><img src="www.runescape.com/layout-<?php echo $ln; ?>/img/main/layout/jagex.png" alt="Jagex" /></a></div></div>
 </div>
-
 
 <script type="text/javascript">
 var gaJsHost=(("https:"==document.location.protocol)?"https://ssl.":"http://www.");

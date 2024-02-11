@@ -576,7 +576,7 @@ echo "You already have an account";
 <div class="contain">
 
 <div class="footerdesc">
-This website and its contents are copyright © Jagex Ltd And  <?php echo htmlspecialchars($title); ?>. <br />This website is powerd by <a href="http://mikersweb.info".>MikeRSWeb</a>.
+This website and its contents are copyright &copy; 1999 - 2011 Jagex Ltd. <br />This website is powered by <a href="http://RunescapeCommunitySoftware.info">Runescape Community Software</a>.
 </div>
 <a class="jagexlink" href="http://www.jagex.com" target="_blank">
 <img src="www.runescape.com/layout-<?php echo $ln; ?>/img/main/layout/jagex.png?4" alt="Jagex" />

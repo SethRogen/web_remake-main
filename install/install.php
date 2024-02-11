@@ -1,10 +1,5 @@
 <?php 
 session_start();
-   // Runescape Community Software Source code \\   |
-  // Do not remove the Footer\\  |
-    // Install before use \\     |
-     // THIS IS COPYRIGHT \\     |
-// MATERIAL DO !!NOT!! CHANGE \\ |
 $version = '5.2';
 $pref_version = '52';
 ?>
@@ -67,15 +62,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
       return md5(md5(base64_encode($value)));
     }
-    	/*if(isset($_GET['guid'])) {
-    	 $valid = 1;
-    	} else if(isset($_POST['guid1'])) {
-    	 $valid = 1;	
-    	}*/
-
-		   // if($valid == 1) {
 				if($_GET['step'] == 1) {
-					//echo 'GUID is valid.';
 					echo '<font color="green">all files are writable.</font><br />';
 					echo '<form action="install.php?step=2" method="post">';
 					echo '<input type="submit" value="Continue">';
@@ -158,7 +145,7 @@ if($_GET['step'] == 4) {
     */
     mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."news` (title varchar(255) NOT NULL,date DATETIME NOT NULL, image varchar(255) NOT NULL,news text NOT NULL,important INTEGER,small TEXT NOT NULL,id int(11) NOT NULL auto_increment,PRIMARY KEY  (id))");
     mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."users` (uname varchar(255),pass varchar(255),id int(11) auto_increment,`banned` int(10),`ip` VARCHAR(255), `dob` VARCHAR(255),`country` VARCHAR(255),`mail` VARCHAR(255), `rights` INT(11), `ipbanned` INT(11), `usertitle` varchar(255) NOT NULL,`forums` TEXT NOT NULL, `hide_mail` INT(1) NOT NULL DEFAULT 1, `signiture` TEXT, PRIMARY KEY  (id))");  
-    //mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."config` (`ip` varchar(150), `port` INT(10), `desc` text, `type` INTEGER,PRIMARY KEY  (ip))");  
+	mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."config` (`playersonline` INT(10), `desc` text, `type` INTEGER,PRIMARY KEY  (playersonline))");  
     mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."settings` (`title` varchar(255),theme INTEGER, clink varchar(255),flink varchar(255),ctype INT(1),PRIMARY KEY  (theme))");  
     mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."staff` (id INTEGER auto_increment, position int(1), name varchar(255), image varchar(255), PRIMARY KEY  (id))");  
     mysql_query("CREATE TABLE IF NOT EXISTS `". $prefix ."links` (id INTEGER auto_increment, link varchar(255), name varchar(255),PRIMARY KEY  (id))");  
@@ -182,6 +169,7 @@ if($_GET['step'] == 4) {
     */
 	mysql_query("INSERT INTO ". $prefix ."news (title,date,news,important,small,image) VALUES ('Installed Runescape Community', NOW(), 'You have successfully installed Runescape Community Software.', '1','You have successfully installed Runescape Community Software. You can login and controle your website within minutes. Runescape Community Software is Fast, Easy, and Free. If you need information about Runescape Community Software just e-mail support@Runescape Community Software.info','installed')");
 	mysql_query("INSERT INTO ". $prefix ."forum_settings (double_posting, max_chars) VALUES (0, 2000)");
+	mysql_query("INSERT INTO ". $prefix ."config (playersonline) VALUES (0)");
 	
 	echo 'Successfully created Tables';
 	echo '<form action="install.php?step=5" method="post">';
@@ -193,26 +181,16 @@ if($_GET['step'] == 5) {
 			include '../includes/config.php';
 			$con = @mysql_connect($host, $dbuser, $dbpass);  
 			mysql_select_db($db ,$con);
-			if($_POST['forum'] == 1) { mysql_query("INSERT INTO ". $prefix ."links (link, name) VALUES ('". realEscape($_POST['forums']) ."', 'Forums')"); }
-			mysql_query("INSERT INTO ". $prefix ."settings (title, client, theme, flink, ctype) VALUES ('". $_POST['title'] ."', '". $_POST['client'] ."', '". $_POST['theme'] ."', '". realEscape($_POST['forums']) ."', 0)");
-			//mysql_query("INSERT INTO ". $prefix ."config (ip, port) VALUES ('". realEscape($_POST['ip']) ."', ". realEscape($_POST['port']) .")");
-			echo 'Options successfully inserted.';
+			mysql_query("INSERT INTO ". $prefix ."settings (title, theme, clink, flink, ctype) VALUES ('".$_POST['title']."', '".$_POST['theme']."', NULL, NULL, 0)");
+			echo 'Settings successfully inserted.';
 			echo '<form action="install.php?step=6" method="post">';
 			echo '<input type="submit" value="Continue">';
 			echo '</form>';
-	}
-	else
-	{
+	} else {
 		echo '<table width="325" border="0" align="center">';
 		echo '<form action="install.php?step=5&check=1" method="post">';
 		echo '<tr><td>Website Title:</td><td><input type="text" name="title"></td></tr>';
-		echo '<tr><td>Forums Type:</td><td><select name="forum" onchange="displayforum();"><option value="0">Runescape Community Forums</option><option value="1">Other Forums</option></select></td></tr>';
-		echo '<tr><td>Forums Link:</td><td id="forum" style="display: none"><input class="input" name="forums" type="text" id="forums"></td></tr>';
-		echo '<tr><td>Client Type:</td><td><select name="client" id="ctype" onchange="displayclient();"><option value="0">Runescape Community Webclient</option><option value="1">Custom Client</option></select></td></tr>';
-		echo '<tr><td>Client Link:</td><td id="client" style="display: none"><input type="text" name="client" id="client"></td></tr>';
 		echo '<tr><td>Website Theme:</td><td><select name="theme"><option value="0">Normal</option><option value="1">Metal</option><option value="2">Halloween</option><option value="3">Christmas</option><option value="4">Castle</option></select></td></tr>';
-		//echo '<tr><td>Server IP:</td><td><input type="text" name="ip"></td></tr>';
-		//echo '<tr><td>Server Port:</td><td><input type="text" name="port"></td></tr>';
 		echo '<tr><td><input type="submit" value="Continue"></td></tr>';
 		echo '</form>';
 		echo '</table>';
@@ -283,9 +261,7 @@ if($_GET['step'] == 6) {
 			echo 'Failed to remove install folder. Please remove it manually for security purposes.';
 			}
 		}
-	}
-	else
-	{
+	} else {
 		echo '<table width="325" border="0" align="center">';
 		echo '<form action="install.php?step=6&check=1" method="post">';
 		echo '<tr><td>Administrator Username:</td><td><input type="text" name="username"></td></tr>';

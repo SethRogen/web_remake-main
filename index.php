@@ -131,18 +131,8 @@ if(!isset($_SESSION['user']))
 </div>
 <div class="feature">
 <a href="#"><img src="www.runescape.com/layout-<?php echo $ln; ?>/img/main/home/feature_poll_icon.jpg" alt="" /></a>
-<div class="featureTitle">Server Status</div>
+<div class="featureTitle"><?php echo $feature_title_4; ?></div>
 <div class="featureDesc">
-<?php
-if(list($ip, $port) = mysql_fetch_row(mysql_query("SELECT ip, port FROM ".$prefix."config")))
-$fp = @fsockopen($ip, $port, $errno, $errstr, 1);
-if ($fp) {
-    echo "<b style='color: green'>Server Online</b>";
-} else {
-    echo "<b style='color: red'>Server Offline</b>";
-}
-
-?>
 </div>
 </div>
 </div>
@@ -197,12 +187,18 @@ if ($fp) {
 <div class='sectionHeight'>
 <?php
 if($news1 = mysql_query("SELECT * FROM ".$prefix."news WHERE important='1' ORDER BY id DESC LIMIT 1"))
-if(mysql_num_rows($news1) > 0)
-{
+if(mysql_num_rows($news1) > 0) {
   while($n = mysql_fetch_array($news1))
   {
-  $title1 = preg_replace('/[a-z]/ie', 'strtoupper($0);', stripslashes($n['title']), 1);
+  $title1 = preg_replace_callback('/[a-z]/i', function($matches) {
+    return strtoupper($matches[0]);
+}, stripslashes($n['title']), 1);
+    if(isset($n['comments'])) {
     $totalcomments = $n['comments'];
+} else {
+    // Handle the case when the 'comments' index is not present
+    $totalcomments = 0; // Or any other default value you prefer
+}
     
     print "<div class='newsTitle'><h3>" . $title1 . "</h3>";
     print "<span>" . date('d-m-Y H:i', strtotime($n['date'])) . "</span></div>";
